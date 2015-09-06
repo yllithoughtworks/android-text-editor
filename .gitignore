@@ -5,3 +5,16 @@
 .DS_Store
 /build
 /captures
+.gradle
+target
+build/
+*.iml
+*.ipr
+*.iws
+out
+reports
+.DS_Store
+.idea
+generated
+bundles/
+repository/
