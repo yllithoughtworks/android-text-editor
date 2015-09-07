@@ -5,8 +5,8 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.thoughtworks.text.editor.layout.api.EditorLayout;
 
@@ -48,7 +48,8 @@ public class MainActivity extends Activity {
                 EditorLayout editorLayout = framework.getBundleContext().getService(reference);
                 editorLayout.active(MainActivity.this);
                 editorLayout.getWorkspace().getEditor().setText("HELLO");
-                ViewGroup main = (ViewGroup) findViewById(R.id.applicationContainer);
+                ViewGroup main = (ViewGroup) findViewById(R.id.application_container);
+                editorLayout.getViewGroup().setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 main.addView(editorLayout.getViewGroup());
                 return editorLayout;
             }
@@ -131,7 +132,14 @@ public class MainActivity extends Activity {
         Map<String, String> config = new HashMap<String, String>();
 //        config.put(Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA, "com.thoughtworks.osgi.workshop.definition");
 
-        config.put(Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA, "com.thoughtworks.text.editor.mode.api;version=\"1.0\",com.thoughtworks.text.editor.layout.api;version=\"1.0\",android.content,android.graphics,android.view,android.widget,android.util");
+        config.put(Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA, "" +
+                "com.thoughtworks.text.editor.mode.api;version=\"1.0\"" +
+                ",com.thoughtworks.text.editor.layout.api;version=\"1.0\"" +
+                ",android.content" +
+                ",android.graphics" +
+                ",android.view" +
+                ",android.widget" +
+                ",android.util");
         config.put(Constants.FRAMEWORK_STORAGE_CLEAN, Constants.FRAMEWORK_STORAGE_CLEAN_ONFIRSTINIT);
         try {
             config.put(Constants.FRAMEWORK_STORAGE, File.createTempFile("osgi", "launcher").getParent());
