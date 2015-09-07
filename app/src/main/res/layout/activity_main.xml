@@ -7,40 +7,41 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:id="@+id/applicationContainer"
     tools:context=".MainActivity">
 
 
-    <LinearLayout
-        android:id="@+id/modes_group"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#ff8d8d8d"
-        android:gravity="center"
-        android:orientation="horizontal" />
-
-    <!--<ScrollView-->
-    <!--android:layout_width="fill_parent"-->
-    <!--android:layout_height="fill_parent"-->
-    <!--android:layout_weight="1">-->
-
-    <LinearLayout
-        android:id="@+id/workspace"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/text_content"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:text="@string/hello_world"
-            android:layout_weight="1"/>
-
-        <!--<LinearLayout-->
+    <!--<LinearLayout-->
+        <!--android:id="@+id/modes_group"-->
         <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"></LinearLayout>-->
-    </LinearLayout>
-    <!--</ScrollView>-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="#ff8d8d8d"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal" />-->
+
+    <!--&lt;!&ndash;<ScrollView&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="fill_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="fill_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_weight="1">&ndash;&gt;-->
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/workspace"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/text_content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:text="@string/hello_world"-->
+            <!--android:layout_weight="1"/>-->
+
+        <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="fill_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"></LinearLayout>&ndash;&gt;-->
+    <!--</LinearLayout>-->
+    <!--&lt;!&ndash;</ScrollView>&ndash;&gt;-->
 
 
 </LinearLayout>

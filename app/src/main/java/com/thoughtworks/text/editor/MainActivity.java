@@ -7,11 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
-import com.thoughtworks.text.editor.mode.api.Mode;
-import com.thoughtworks.text.editor.mode.api.Workspace;
+import com.thoughtworks.text.editor.layout.api.EditorLayout;
 
 import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
@@ -33,7 +30,6 @@ import java.util.ServiceLoader;
 
 public class MainActivity extends Activity {
 
-    Mode currentMode;
     private Framework framework;
 
     @Override
@@ -41,64 +37,39 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         launchFramework();
-        startBundles("bundles");
 
-        ServiceTracker<Mode, Mode> tracker = new ServiceTracker<Mode, Mode>(framework.getBundleContext(), Mode.class, new ServiceTrackerCustomizer<Mode, Mode>() {
+        ServiceTracker<EditorLayout, EditorLayout> tracker = new ServiceTracker<EditorLayout, EditorLayout>(framework.getBundleContext(), EditorLayout.class, new ServiceTrackerCustomizer<EditorLayout, EditorLayout>() {
             @Override
-            public Mode addingService(ServiceReference<Mode> reference) {
-                final Mode mode = framework.getBundleContext().getService(reference);
-
-
-                ViewGroup modesGroup = (ViewGroup) findViewById(R.id.modes_group);
-                Button chooseModeButton = new Button(MainActivity.this);
-                chooseModeButton.setText(mode.getName());
-
-
-                final ViewGroup viewGroup = (ViewGroup) findViewById(R.id.workspace);
-                final Workspace workspace = new Workspace() {
-                    @Override
-                    public ViewGroup getViewGroup() {
-                        return viewGroup;
-                    }
-
-                    @Override
-                    public TextView getEditor() {
-                        return (TextView) viewGroup.findViewById(R.id.text_content);
-                    }
-                };
-
-                chooseModeButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        currentMode.inActive(MainActivity.this, workspace);
-                        mode.active(MainActivity.this, workspace);
-                        currentMode = mode;
-                    }
-                });
-                modesGroup.addView(chooseModeButton);
-
-                if (currentMode == null) {
-                    mode.active(MainActivity.this, workspace);
-                    currentMode = mode;
-                }
-
-                Log.d("kkkkkk", "installed " + mode.getName());
-
-                return mode;
+            public EditorLayout addingService(ServiceReference<EditorLayout> reference) {
+                Log.d("main-activity", "get editor layout of");
+                EditorLayout editorLayout = framework.getBundleContext().getService(reference);
+                editorLayout.active(MainActivity.this);
+                editorLayout.getWorkspace().getEditor().setText("HELLO");
+                ViewGroup main = (ViewGroup) findViewById(R.id.applicationContainer);
+                main.addView(editorLayout.getViewGroup());
+                return editorLayout;
             }
 
             @Override
-            public void modifiedService(ServiceReference<Mode> reference, Mode service) {
+            public void modifiedService(ServiceReference<EditorLayout> reference, EditorLayout service) {
 
             }
 
             @Override
-            public void removedService(ServiceReference<Mode> reference, Mode service) {
+            public void removedService(ServiceReference<EditorLayout> reference, EditorLayout service) {
 
             }
         });
         tracker.open(true);
+        startBundles("bundles");
+
+        Log.d("main-activity", "start all bundles!!!");
+
+
+
     }
 
 
@@ -160,7 +131,7 @@ public class MainActivity extends Activity {
         Map<String, String> config = new HashMap<String, String>();
 //        config.put(Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA, "com.thoughtworks.osgi.workshop.definition");
 
-        config.put(Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA, "com.thoughtworks.text.editor.mode.api;version=\"1.0\",android.content,android.graphics,android.view,android.widget");
+        config.put(Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA, "com.thoughtworks.text.editor.mode.api;version=\"1.0\",com.thoughtworks.text.editor.layout.api;version=\"1.0\",android.content,android.graphics,android.view,android.widget,android.util");
         config.put(Constants.FRAMEWORK_STORAGE_CLEAN, Constants.FRAMEWORK_STORAGE_CLEAN_ONFIRSTINIT);
         try {
             config.put(Constants.FRAMEWORK_STORAGE, File.createTempFile("osgi", "launcher").getParent());
