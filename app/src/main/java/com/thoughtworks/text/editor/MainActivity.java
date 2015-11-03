@@ -120,6 +120,7 @@ public class MainActivity extends Activity {
         if (iterator.hasNext()) {
             framework = iterator.next().newFramework(getFrameworkConfig());
             try {
+
                 framework.init();
                 framework.start();
             } catch (BundleException e) {
@@ -140,6 +141,10 @@ public class MainActivity extends Activity {
                 ",android.view" +
                 ",android.widget" +
                 ",android.util");
+
+        config.put(Constants.FRAMEWORK_SYSTEMCAPABILITIES,"osgi.ee;osgi.ee=\"JavaSE\";version:List=\"1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8\"");
+
+        //
         config.put(Constants.FRAMEWORK_STORAGE_CLEAN, Constants.FRAMEWORK_STORAGE_CLEAN_ONFIRSTINIT);
         try {
             config.put(Constants.FRAMEWORK_STORAGE, File.createTempFile("osgi", "launcher").getParent());
