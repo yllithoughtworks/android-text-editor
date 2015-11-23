@@ -94,9 +94,11 @@ public class MainActivity extends Activity {
             }
 
             try {
+
                 String location = "bundles/" + bundleFileName;
                 stream = getAssets().open(location);
                 installedBundles.add(framework.getBundleContext().installBundle(location, stream));
+
             } catch (BundleException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -107,7 +109,11 @@ public class MainActivity extends Activity {
 
         for (org.osgi.framework.Bundle installedBundle : installedBundles) {
             try {
-                installedBundle.start();
+
+                if(installedBundle.getSymbolicName()==null||!installedBundle.getSymbolicName().contains("gson")){
+                    installedBundle.start();
+                }
+
             } catch (BundleException e) {
                 e.printStackTrace();
             }
@@ -115,6 +121,7 @@ public class MainActivity extends Activity {
     }
 
     private void launchFramework() {
+
         ServiceLoader<FrameworkFactory> frameworkFactories = ServiceLoader.load(FrameworkFactory.class);
         Iterator<FrameworkFactory> iterator = frameworkFactories.iterator();
         if (iterator.hasNext()) {
@@ -142,7 +149,9 @@ public class MainActivity extends Activity {
                 ",android.widget" +
                 ",android.util");
 
-        config.put(Constants.FRAMEWORK_SYSTEMCAPABILITIES,"osgi.ee;osgi.ee=\"JavaSE\";version:List=\"1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8\"");
+
+        config.put(Constants.FRAMEWORK_SYSTEMCAPABILITIES,"osgi.ee;osgi.ee=\"JavaSE\";version:List<Version>=\"1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7\"");
+
 
         //
         config.put(Constants.FRAMEWORK_STORAGE_CLEAN, Constants.FRAMEWORK_STORAGE_CLEAN_ONFIRSTINIT);
